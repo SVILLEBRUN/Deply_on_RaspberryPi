@@ -22,6 +22,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           # source: "./docker-compose.raspberrypi.yml"
-          # target: "Projets/my_apps/docker-compose.yml"
+          # target: "./Projets/my_apps/docker-compose.yml"
           source: "./test.txt"
           target: "./Projets/my_apps/testouille.txt"

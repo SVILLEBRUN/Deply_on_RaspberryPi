@@ -29,8 +29,6 @@ services:
         ports:
             - "5000"
         restart: always
-        volumes:
-            - ../proxy:/app
         networks:
             - my-apps-network
 

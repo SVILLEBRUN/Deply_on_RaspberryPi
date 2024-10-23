@@ -26,5 +26,4 @@ jobs:
           scp -i private_key.pem ./docker-compose.raspberrypi.yml ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/docker-compose.yml
           scp -i private_key.pem ./index.html ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/index.html
           scp -i private_key.pem ./nginx.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/nginx.conf
-          scp -i private_key.pem ./.env ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/.env
           rm -f private_key.pem

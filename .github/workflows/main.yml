@@ -19,9 +19,12 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Copy file to server
+      - name: Copy files to server
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
-          scp -i private_key.pem ./test.txt ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/testouille.txt
+          scp -i private_key.pem ./docker-compose.raspberrypi.yml ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/docker-compose.yml
+          scp -i private_key.pem ./index.html ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/index.html
+          scp -i private_key.pem ./nginx.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/nginx.conf
+          scp -i private_key.pem ./.env ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:Projets/my_apps/.env
           rm -f private_key.pem

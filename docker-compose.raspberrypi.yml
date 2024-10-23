@@ -1,0 +1,57 @@
+# Docker compose pour déployer en production sur le raspberry pi depuis les images généré par GitHub Actions et stocké sur Docker Hub
+# Copier cette config dans un fichier docker-compose.yml à la racide du projet multi-app-netwok
+# NOTE : platform: linux/arm64 => Optimisé pour les machines ARM (processeurs des Raspberry Pi, Mac M1, etc.)
+# ATTENTION : 
+# - Il faut créer un fichier .env au même niveau que le docker-compose.yml pour la configuration de l'API
+# - Il faut créer un fichier nginx.conf au même niveau que le docker-compose.yml pour la configuration de nginx
+# - Il faut créer un fichier index.html au même niveau que le docker-compose.yml pour la page d'accueil de l'application
+
+networks:
+    my-apps-network:
+        driver: bridge
+
+services:
+    nginx:
+        container_name: nginx
+        image: nginx:latest
+        platform: linux/arm64
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./index.html:/usr/share/nginx/html/index.html
+        networks:
+            - my-apps-network
+
+    proxy:
+        container_name: proxy
+        image: sebvillebrun/proxy:latest
+        ports:
+            - "5000"
+        restart: always
+        volumes:
+            - ../proxy:/app
+        networks:
+            - my-apps-network
+
+    movie-db-vue:
+        container_name: movie-db-vue
+        image: sebvillebrun/movie-db-app:latest_vue
+        platform: linux/arm64
+        ports:
+            - "8080"
+        restart: always
+        networks:
+            - my-apps-network
+
+    movie-db-core-api:
+        container_name: movie-db-core-api
+        image: sebvillebrun/movie-db-app:latest_core-api
+        platform: linux/arm64
+        ports:
+            - "3000"
+        restart: always
+        volumes:
+            - .env:/app/.env
+        networks:
+            - my-apps-network

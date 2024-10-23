@@ -24,4 +24,4 @@ jobs:
           # source: "./docker-compose.raspberrypi.yml"
           # target: "Projets/my_apps/docker-compose.yml"
           source: "./test.txt"
-          target: "Projets/my_apps/testouille.txt"
+          target: "./Projets/my_apps/testouille.txt"

@@ -52,6 +52,8 @@ services:
         restart: always
         volumes:
             - .env:/app/.env
+        environment:
+            - DATABASE_URL=${DATABASE_URL_MDB}
         networks:
             - my-apps-network
 
@@ -59,10 +61,10 @@ services:
     airjewels-db:
         container_name: airjewels-db
         image: postgres:latest
-        restart: always
         platform: linux/arm64
         ports:
             - "5432:5432"
+        restart: always
         volumes:
             - airjewels-db-data:/var/lib/postgresql/data
         networks:
@@ -75,6 +77,7 @@ services:
         image: sebvillebrun/airjewels-rails:latest
         platform: linux/arm64
         # command: ./bin/rails s -b '0.0.0.0' -p 3001
+        restart: always
         ports:
             - "3001:3001"
         depends_on:

@@ -55,7 +55,45 @@ services:
         restart: always
         volumes:
             - ../Movie_db_app/movie-db-core-api:/app
+        environment:
+            - DATABASE_URL=${DATABASE_URL_MDB}
         networks:
             - my-apps-network
     
-        
+    airjewels-db:
+        image: postgres:latest
+        container_name: airjewels-db
+        restart: always
+        volumes:
+            - airjewels-dev-db-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - my-apps-network
+        env_file:
+            - .env
+
+    airjewels-rails:
+        container_name: airjewels-rails
+        build:
+            context: ../airjewels-rails
+            dockerfile: dev.Dockerfile
+        command: bundle exec rails s -b '0.0.0.0' -p 3001
+        ports:
+            - "3001:3001"
+        depends_on:
+            - airjewels-db
+        restart: always
+        volumes:
+            - ../airjewels-rails:/rails    # Only for development
+            - airjewels-dev-app-storage:/rails/storage
+        networks:
+            - my-apps-network
+        env_file:
+            - .env
+
+volumes:
+    airjewels-dev-db-data:
+        name: airjewels-dev-db-data
+    airjewels-dev-app-storage: 
+        name: airjewels-dev-app-storage

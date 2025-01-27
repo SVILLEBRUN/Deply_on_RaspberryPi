@@ -76,7 +76,7 @@ services:
         container_name: airjewels-rails
         image: sebvillebrun/airjewels-rails:latest
         platform: linux/arm64
-        # command: ./bin/rails s -b '0.0.0.0' -p 3001
+        command: ./bin/rails s -b '0.0.0.0' -p 3001
         restart: always
         ports:
             - "3001:3001"

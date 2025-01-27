@@ -67,7 +67,6 @@ services:
         restart: always
         volumes:
             - airjewels-db-data:/var/lib/postgresql/data
-            - .env:/app/.env
         networks:
             - my-apps-network
 
@@ -82,9 +81,11 @@ services:
             - airjewels-db
         volumes:
             - airjewels-app-storage:/rails/storage
-            - .env:/app/.env
+            # - .env:/app/.env
         networks:
             - my-apps-network
+        env_file:
+            - .env
 
 volumes:
     airjewels-db-data: 

@@ -14,10 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-    #   - name: Add server to known hosts
-    #     run: |
-    #       mkdir -p ~/.ssh
-    #       ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      - name: Add server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Copy files to server
         run: |

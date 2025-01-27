@@ -14,15 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check if ~/.ssh exists
-        run: |
-          if [ -d ~/.ssh ]; then
-            echo "~/.ssh directory exists."
-          else
-            echo "~/.ssh directory does not exist. Creating it..."
-            mkdir -p ~/.ssh
-          fi
-
       - name: Add server to known hosts
         run: |
           mkdir -p ~/.ssh

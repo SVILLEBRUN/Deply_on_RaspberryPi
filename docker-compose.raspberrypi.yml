@@ -54,3 +54,40 @@ services:
             - .env:/app/.env
         networks:
             - my-apps-network
+
+
+    airjewels-db:
+        container_name: airjewels-db
+        image: postgres:latest
+        restart: always
+        platform: linux/arm64
+        ports:
+            - "5432:5432"
+        volumes:
+            - airjewels-db-data:/var/lib/postgresql/data
+        networks:
+            - my-apps-network
+        env_file:
+            - .env
+
+    airjewels-rails:
+        container_name: airjewels-rails
+        image: sebvillebrun/airjewels-rails:latest
+        platform: linux/arm64
+        # command: ./bin/rails s -b '0.0.0.0' -p 3001
+        ports:
+            - "3001:3001"
+        depends_on:
+            - airjewels-db
+        volumes:
+            - airjewels-app-storage:/rails/storage
+        networks:
+            - my-apps-network
+        env_file:
+            - .env
+
+volumes:
+    airjewels-db-data: 
+        name: airjewels-db-data
+    airjewels-app-storage:
+        name: airjewels-app-storage

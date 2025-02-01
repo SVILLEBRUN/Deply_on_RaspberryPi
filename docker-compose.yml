@@ -89,11 +89,54 @@ services:
             - airjewels-dev-app-storage:/rails/storage
         networks:
             - my-apps-network
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER_AIRJEWELS}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_AIRJEWELS}
         env_file:
             - .env
+
+    academint-db:
+        image: postgres:latest
+        container_name: academint-db
+        restart: always
+        volumes:
+            - academint-dev-db-data:/var/lib/postgresql/data
+        ports:
+            - "5433:5433"
+        networks:
+            - my-apps-network
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER_ACADEMINT}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_ACADEMINT}
+        env_file:
+            - .env
+
+    academint:
+        container_name: academint
+        build:
+            context: ../Academint
+            dockerfile: dev.Dockerfile
+        command: bundle exec rails s -b '0.0.0.0' -p 3002
+        ports:
+            - "3002:3002"
+        depends_on:
+            - academint-db
+        restart: always
+        volumes:
+            - ../academint:/rails    # Only for development
+            - academint-dev-app-storage:/rails/storage
+        networks:
+            - my-apps-network
+        env_file:
+            - .env
+
 
 volumes:
     airjewels-dev-db-data:
         name: airjewels-dev-db-data
     airjewels-dev-app-storage: 
         name: airjewels-dev-app-storage
+    academint-dev-db-data:
+        name: academint-dev-db-data
+    academint-dev-app-storage: 
+        name: academint-dev-app-storage

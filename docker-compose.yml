@@ -72,6 +72,9 @@ services:
             - my-apps-network
         env_file:
             - .env
+        environment:
+            - POSTGRES_USER=${POSTGRES_PASSWORD_AIRJEWELS}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_AIRJEWELS}
 
     airjewels-rails:
         container_name: airjewels-rails
@@ -89,9 +92,6 @@ services:
             - airjewels-dev-app-storage:/rails/storage
         networks:
             - my-apps-network
-        environment:
-            - POSTGRES_USER=${POSTGRES_USER_AIRJEWELS}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_AIRJEWELS}
         env_file:
             - .env
 
@@ -105,11 +105,11 @@ services:
             - "5433:5433"
         networks:
             - my-apps-network
-        environment:
-            - POSTGRES_USER=${POSTGRES_USER_ACADEMINT}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_ACADEMINT}
         env_file:
             - .env
+        environment:
+            - POSTGRES_USER=${POSTGRES_PASSWORD_ACADEMINT}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_ACADEMINT}
 
     academint:
         container_name: academint

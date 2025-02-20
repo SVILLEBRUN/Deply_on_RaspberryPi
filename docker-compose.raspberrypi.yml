@@ -102,8 +102,8 @@ services:
         networks:
             - my-apps-network
         environment:
-            - POSTGRES_USER=${POSTGRES_PASSWORD_AIRJEWELS}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_AIRJEWELS}
+            - POSTGRES_USER=${POSTGRES_PASSWORD_ACADEMINT}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_ACADEMINT}
 
     academint:
         container_name: academint

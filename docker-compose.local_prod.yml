@@ -73,13 +73,17 @@ services:
             - my-apps-network
         env_file:
             - .env
+        environment:
+            - POSTGRES_USER=${POSTGRES_PASSWORD_AIRJEWELS}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_AIRJEWELS}
 
     airjewels-rails:
         container_name: airjewels-rails
+        restart: always
         build:
             context: ../airjewels-rails
             args:
-                SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+                SECRET_KEY_BASE: ${SECRET_KEY_BASE_AIRJEWELS}
         command: ./bin/rails s -b '0.0.0.0' -p 3001
         ports:
             - "3001:3001"
@@ -92,8 +96,47 @@ services:
         env_file:
             - .env
 
+    academint-db:
+        image: postgres:latest
+        container_name: academint-db
+        restart: always
+        volumes:
+            - academint-db-data:/var/lib/postgresql/data
+        ports:
+            - "5433:5433"
+        networks:
+            - my-apps-network
+        env_file:
+            - .env
+        environment:
+            - POSTGRES_USER=${POSTGRES_PASSWORD_ACADEMINT}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_ACADEMINT}
+
+    academint:
+        container_name: academint
+        restart: always
+        build:
+            context: ../Academint
+            args:
+                SECRET_KEY_BASE: ${SECRET_KEY_BASE_ACADEMINT}
+        command: ./bin/rails s -b '0.0.0.0' -p 3002
+        ports:
+            - "3002:3002"
+        depends_on:
+            - academint-db
+        volumes:
+            - academint-app-storage:/rails/storage
+        networks:
+            - my-apps-network
+        env_file:
+            - .env
+
 volumes:
     airjewels-db-data: 
         name: airjewels-db-data
     airjewels-app-storage:
         name: airjewels-app-storage
+    academint-db-data: 
+        name: academint-db-data
+    academint-app-storage:
+        name: academint-app-storage

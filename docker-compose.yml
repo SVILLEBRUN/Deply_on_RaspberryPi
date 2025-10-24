@@ -65,7 +65,7 @@ services:
         container_name: airjewels-db
         restart: always
         volumes:
-            - airjewels-dev-db-data:/var/lib/postgresql/data
+            - airjewels-dev-db-data:/var/lib/postgresql
         ports:
             - "5432:5432"
         networks:
@@ -100,7 +100,7 @@ services:
         container_name: academint-db
         restart: always
         volumes:
-            - academint-dev-db-data:/var/lib/postgresql/data
+            - academint-dev-db-data:/var/lib/postgresql
         ports:
             - "5433:5433"
         networks:

@@ -66,7 +66,7 @@ services:
             - "5432:5432"
         restart: always
         volumes:
-            - airjewels-db-data-v18:/var/lib/postgresql
+            - airjewels-db-data:/var/lib/postgresql
         networks:
             - my-apps-network
         environment:
@@ -98,7 +98,7 @@ services:
             - "5433:5433"
         restart: always
         volumes:
-            - academint-db-data:/var/lib/postgresql/data
+            - academint-db-data:/var/lib/postgresql
         networks:
             - my-apps-network
         environment:
@@ -123,8 +123,8 @@ services:
             - .env
 
 volumes:
-    airjewels-db-data-v18: 
-        name: airjewels-db-data-v18
+    airjewels-db-data:
+        name: airjewels-db-data
     airjewels-app-storage:
         name: airjewels-app-storage
     academint-db-data: 

@@ -74,7 +74,7 @@ services:
         env_file:
             - .env
         environment:
-            - POSTGRES_USER=${POSTGRES_PASSWORD_AIRJEWELS}
+            - POSTGRES_USER=${POSTGRES_USER_AIRJEWELS}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_AIRJEWELS}
 
     airjewels-rails:
@@ -109,7 +109,7 @@ services:
         env_file:
             - .env
         environment:
-            - POSTGRES_USER=${POSTGRES_PASSWORD_ACADEMINT}
+            - POSTGRES_USER=${POSTGRES_USER_ACADEMINT}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_ACADEMINT}
 
     academint:

@@ -23,6 +23,9 @@ services:
             - ./index.html:/usr/share/nginx/html/index.html
         networks:
             - my-apps-network
+        extra_hosts:
+          - "host.docker.internal:192.168.1.85"  # permet aux containers de voir l’IP du host
+        network_mode: "bridge"
 
     proxy:
         container_name: proxy

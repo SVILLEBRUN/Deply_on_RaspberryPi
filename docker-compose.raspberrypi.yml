@@ -21,7 +21,8 @@ services:
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/default.conf
             - ./index.html:/usr/share/nginx/html/index.html
-        network_mode: "host"
+        networks:
+            - my-apps-network
 
     proxy:
         container_name: proxy

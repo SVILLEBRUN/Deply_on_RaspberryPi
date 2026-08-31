@@ -16,14 +16,6 @@ jobs:
         with:
           clean: true
           fetch-depth: 0
-    
-      - name: Display docker compose content
-        run: |
-          echo "=================================================="
-          echo "Contenu de ./docker-compose.raspberrypi.yml :"
-          echo "=================================================="
-          cat ./docker-compose.raspberrypi.yml
-          echo "=================================================="
 
       - name: Copy files to server
         run: |

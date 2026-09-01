@@ -36,6 +36,9 @@ services:
             - NODE_ENV=production
             - HOST=0.0.0.0
             - PORT=8081
+            - MAIL_TARGET=${MAIL_TARGET}
+            - MAIL_USER=${MAIL_USER}
+            - MAIL_PASS=${MAIL_PASS}
         env_file:
             - .env
 

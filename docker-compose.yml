@@ -10,7 +10,7 @@ services:
         image: nginx:latest
         container_name: nginx
         ports:
-            - "880:880"
+            - "80:80"
         restart: always
         volumes:
             - ./nginx_dev.conf:/etc/nginx/conf.d/default.conf

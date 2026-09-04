@@ -55,7 +55,7 @@ services:
         image: sebvillebrun/movie-db-app:latest_vue
         platform: linux/arm64
         ports:
-            - "8080"
+            - "8080:8080"
         restart: always
         networks:
             - my-apps-network
@@ -67,7 +67,7 @@ services:
         image: sebvillebrun/movie-db-app:latest_core-api
         platform: linux/arm64
         ports:
-            - "3000"
+            - "3000:3000"
         restart: always
         # volumes:
         #     - .env:/app/.env

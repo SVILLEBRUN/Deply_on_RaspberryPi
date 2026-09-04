@@ -108,7 +108,7 @@ services:
             - my-apps-network
         env_file:
             - .env
-        
+
     academint-db:
         container_name: academint-db
         image: postgres:latest

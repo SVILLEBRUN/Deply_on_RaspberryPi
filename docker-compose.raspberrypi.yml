@@ -57,6 +57,8 @@ services:
         restart: always
         networks:
             - my-apps-network
+        env_file:
+            - .env
 
     movie-db-core-api:
         container_name: movie-db-core-api
@@ -65,12 +67,14 @@ services:
         ports:
             - "3000"
         restart: always
-        volumes:
-            - .env:/app/.env
+        # volumes:
+        #     - .env:/app/.env
         environment:
             - DATABASE_URL=${DATABASE_URL_MDB}
         networks:
             - my-apps-network
+        env_file:
+            - .env
 
 
     airjewels-db:

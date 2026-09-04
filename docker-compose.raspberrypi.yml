@@ -43,10 +43,12 @@ services:
         container_name: proxy
         image: sebvillebrun/proxy:latest
         ports:
-            - "5000"
+            - "5000:5000"
         restart: always
         networks:
             - my-apps-network
+        env_file:
+            - .env
 
     movie-db-vue:
         container_name: movie-db-vue

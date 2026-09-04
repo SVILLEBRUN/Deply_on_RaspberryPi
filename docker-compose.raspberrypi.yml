@@ -69,8 +69,6 @@ services:
         ports:
             - "3000:3000"
         restart: always
-        # volumes:
-        #     - .env:/app/.env
         environment:
             - DATABASE_URL=${DATABASE_URL_MDB}
         networks:

@@ -43,12 +43,15 @@ services:
             context: ../proxy
             target: 'development-stage'
         ports:
-            - "5000:5000"
+            # - "5000:5000"  # Port locked on MacOS, we use 5001 instead
+            - "5001:5001"
         restart: always
         volumes:
             - ../proxy:/app
         networks:
             - my-apps-network
+        env_file:
+            - .env
 
     movie-db-vue:
         container_name: movie-db-vue
@@ -70,7 +73,7 @@ services:
             context: ../Movie_db_app/movie-db-core-api
             target: 'development-stage'
         ports:
-            - "3000"
+            - "3000:3000"
         restart: always
         volumes:
             - ../Movie_db_app/movie-db-core-api:/app
@@ -78,6 +81,8 @@ services:
             - DATABASE_URL=${DATABASE_URL_MDB}
         networks:
             - my-apps-network
+        env_file:
+            - .env
     
     airjewels-db:
         image: postgres:latest

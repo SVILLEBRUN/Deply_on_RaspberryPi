@@ -159,6 +159,74 @@ services:
             - .env
 
 
+    tv-time-db:
+        image: postgres:18
+        container_name: tv-time-db
+        restart: always
+        volumes:
+            - tv-time-dev-db-data:/var/lib/postgresql
+        ports:
+            - "5434:5432"
+        networks:
+            - my-apps-network
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER_TV_TIME}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_TV_TIME}
+            - POSTGRES_DB=${POSTGRES_DB_TV_TIME}
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+            interval: 3s
+            timeout: 3s
+            retries: 20
+
+    tv-time-backend:
+        container_name: tv-time-backend
+        build:
+            context: ../tv-time/backend
+            target: 'development-stage'
+        command: sh -c "pnpm install && pnpm prisma generate && pnpm prisma migrate deploy && pnpm dev"
+        ports:
+            - "3003:3001"
+        depends_on:
+            tv-time-db:
+                condition: service_healthy
+        restart: always
+        volumes:
+            - ../tv-time/backend:/app    # Only for development
+            - tv-time-dev-backend-node_modules:/app/node_modules
+        networks:
+            - my-apps-network
+        environment:
+            - NODE_ENV=development
+            - LOG_LEVEL=debug
+            - DATABASE_URL=postgresql://${POSTGRES_USER_TV_TIME}:${POSTGRES_PASSWORD_TV_TIME}@tv-time-db:5432/${POSTGRES_DB_TV_TIME}?schema=public
+            - JWT_SECRET=${JWT_SECRET_TV_TIME}
+            - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID_TV_TIME}
+            - TMDB_API_KEY=${TMDB_API_KEY}
+            - TV_TIME_FRONT_URL=http://localhost
+
+    tv-time-frontend:
+        container_name: tv-time-frontend
+        build:
+            context: ../tv-time/frontend-nuxt
+            target: 'development-stage'
+        command: sh -c "pnpm install && pnpm dev --host 0.0.0.0"
+        ports:
+            - "3004:3000"
+        depends_on:
+            - tv-time-backend
+        restart: always
+        volumes:
+            - ../tv-time/frontend-nuxt:/app    # Only for development
+            - tv-time-dev-frontend-node_modules:/app/node_modules
+        networks:
+            - my-apps-network
+        environment:
+            - NUXT_APP_BASE_URL=/tv-time/
+            - API_BASE=http://tv-time-backend:3001/tv-time/api
+            - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID_TV_TIME}
+
+
 volumes:
     airjewels-dev-db-data:
         name: airjewels-dev-db-data
@@ -176,3 +244,9 @@ volumes:
         name: academint-dev-bundle_cache
     academint-dev-node_modules_cache:
         name: academint-dev-node_modules_cache
+    tv-time-dev-db-data:
+        name: tv-time-dev-db-data
+    tv-time-dev-backend-node_modules:
+        name: tv-time-dev-backend-node_modules
+    tv-time-dev-frontend-node_modules:
+        name: tv-time-dev-frontend-node_modules

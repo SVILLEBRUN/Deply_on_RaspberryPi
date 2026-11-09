@@ -21,7 +21,7 @@ services:
         container_name: sv-portfolio
         build:
             context: ../sv-portfolio
-            target: 'development-stage'
+            dockerfile: dev.Dockerfile
         ports:
             - "8081:8081"
             - "24678:24678"

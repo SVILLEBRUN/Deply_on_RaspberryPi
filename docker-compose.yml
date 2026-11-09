@@ -204,6 +204,14 @@ services:
             - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID_TV_TIME}
             - TMDB_API_KEY=${TMDB_API_KEY}
             - TV_TIME_FRONT_URL=http://localhost
+            # Public URL of the app, base path included: used for the links in emails
+            - PUBLIC_APP_URL=http://localhost/tv-time
+            # Password reset emails (Nodemailer, SMTP): sent for real, even in development
+            - SMTP_HOST=${SMTP_HOST_TV_TIME}
+            - SMTP_PORT=${SMTP_PORT_TV_TIME}
+            - SMTP_USER=${SMTP_USER_TV_TIME}
+            - SMTP_PASS=${SMTP_PASS_TV_TIME}
+            - MAIL_FROM=${MAIL_FROM_TV_TIME}
 
     tv-time-frontend:
         container_name: tv-time-frontend
